@@ -1,17 +1,19 @@
 # Snurk
 
-A Rust tool for generating zero-knowledge proof code from Circom circuits.
+A Rust tool for generating optimized wasm prover binaries from Circom circuits.
 
 ## Description
 
 Snurk takes compiled Circom circuit files (R1CS, zkey, and WebAssembly witness generator) and generates
-Rust code that embeds these files using `include_bytes!`. The generated code interfaces with the
-arkworks-circom prover to create zero-knowledge proofs from circuit inputs.
+Rust code that optimizes and inlines the prover assets to the binary.
 
 ## Installation
 
 ```
-cargo install snurk
+git clone https://github.com/thefrozenfire/snurk.git
+cd snurk
+cargo build -p snurk
+./target/release/snurk --r1cs <R1CS> --zkey <ZKEY> --wasm <WASM>
 ```
 
 ## Usage
