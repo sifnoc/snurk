@@ -4,6 +4,11 @@ use std::path::Path;
 use std::io::Write;
 use snurk::convert_zkey;
 
+use wasm_pack::{
+    command::run_wasm_pack,
+    Cli as WasmPackCli, PBAR,
+};
+
 #[derive(Parser)]
 #[command(
     author, 
@@ -66,6 +71,16 @@ pub fn prove(inputs: &str) -> String {{
     output.write_all(code.as_bytes())?;
 
     tracing::info!("Generated prover code in {}", wasm_src.display());
+
+    let wasm_pack_args = WasmPackCli::parse_from(&["wasm-pack", "build", "crates/wasm", "--target", "web", "--out-dir", "../../pkg", "--", "--no-default-features", "--features", "wasm,build", "-Z", "build-std=std,panic_abort"]);
+
+    PBAR.set_log_level(wasm_pack_args.log_level);
+
+    if wasm_pack_args.quiet {
+        PBAR.set_quiet(true);
+    }
+
+    run_wasm_pack(wasm_pack_args.cmd).unwrap();
 
     Ok(())
 }

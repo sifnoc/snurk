@@ -12,6 +12,7 @@ clap = { version = "4.4", features = ["derive"] }
 color-eyre = "0.6"
 tracing = "0.1"
 tracing-subscriber = "0.3"
+wasm-pack = "0.13"
 
 ark-circom = { workspace = true }
 ark-ff = { workspace = true }
@@ -23,3 +24,6 @@ ark-std = { workspace = true }
 ark-serialize = { workspace = true }
 ark-relations = { workspace = true }
 ark-snark = { workspace = true }
+
+[features]
+default = ["ark-circom/default"]
