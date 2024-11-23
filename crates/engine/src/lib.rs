@@ -1,6 +1,8 @@
+pub mod proof;
+
 use ark_bn254::{Bn254, Fr as BnScalar};
 use ark_circom::{CircomBuilder, CircomConfig, CircomReduction, WitnessCalculator, circom::{ R1CSFile, R1CS } };
-use ark_groth16::{Groth16, ProvingKey, Proof};
+use ark_groth16::{Groth16, ProvingKey};
 use ark_serialize::CanonicalDeserialize;
 use ark_snark::SNARK;
 
@@ -9,12 +11,14 @@ use num_bigint::BigUint;
 use rand::thread_rng;
 use wasmer::{Store, Module};
 
+use crate::proof::Proof;
+
 pub fn prove(
     witness_inputs: Vec<(String, Vec<BigUint>)>,
     zkey_file: &[u8],
     r1cs_file: &[u8],
     wasm_file: &[u8],
-) -> (Proof<Bn254>, Vec<BnScalar>) {
+) -> Proof {
     let mut rng = thread_rng();
 
     let mut store = Store::default();
@@ -49,5 +53,5 @@ pub fn prove(
 
     let proof = Groth16::<Bn254, CircomReduction>::prove(&params, circom, &mut rng).unwrap();
 
-    (proof, public_inputs)
+    Proof { proof, public_inputs }
 }

@@ -43,20 +43,15 @@ fn main() -> Result<()> {
 
     println!("zkey_file: {:?}", zkey_file);
     println!("vkey_file: {:?}", vkey_file);
-
-    // Create output file name based on input circuit name
-    let input_name = Path::new(&cli.zkey)
-        .file_name()
-        .and_then(|n| n.to_str())
-        .unwrap_or("circuit")
-        .to_lowercase();
-    let input_name = input_name.strip_suffix(".zkey").unwrap_or("circuit");
     
-    let output_path = format!("{}_prover.rs", input_name);
-    let mut output = std::fs::File::create(&output_path)?;
+    let manifest_dir = env!("CARGO_MANIFEST_DIR");
+    let wasm_src = Path::new(manifest_dir).join("../wasm/src/circuit.rs");
+
+    let mut output = std::fs::File::create(&wasm_src)?;
 
     // Write the generated Rust code
-    let code = format!(r#"use snurk_wasm::*;
+    let code = format!(r#"use crate::*;
+use wasm_bindgen::prelude::*;
 
 const ZKEY: &[u8] = include_bytes!("{}");
 const R1CS: &[u8] = include_bytes!("{}"); 
@@ -70,7 +65,7 @@ pub fn prove(inputs: &str) -> String {{
 
     output.write_all(code.as_bytes())?;
 
-    tracing::info!("Generated prover code in {}", output_path);
+    tracing::info!("Generated prover code in {}", wasm_src.display());
 
     Ok(())
 }

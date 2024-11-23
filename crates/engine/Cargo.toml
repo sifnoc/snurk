@@ -3,6 +3,9 @@ name = "snurk-engine"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [features]
 default = ["native"]
 native = ["ark-circom/default"]
@@ -26,18 +29,12 @@ ark-snark = { workspace = true }
 
 serde = { workspace = true }
 serde_json = { workspace = true }
-chrono = { workspace = true }
-rsa = { workspace = true }
 rand = { workspace = true }
-hex = { workspace = true }
-jsonwebtoken = { workspace = true }
-byteorder = { workspace = true }
 num = { workspace = true }
 num-traits = { workspace = true }
 num-bigint = { workspace = true }
-base64 = { workspace = true }
 
-wasmer = { version = "4.3", default-features = false }
+wasmer = { version = "=4.3.7", default-features = false }
 wasmer-wasix = { version = "0.27.0", default-features = false }
 
 tokio = { workspace = true }
