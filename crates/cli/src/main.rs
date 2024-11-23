@@ -72,6 +72,8 @@ pub fn prove(inputs: &str) -> String {{
 
     tracing::info!("Generated prover code in {}", wasm_src.display());
 
+    std::env::set_var("RUSTFLAGS", "-C target-feature=+atomics,+bulk-memory,+mutable-globals");
+
     let wasm_pack_args = WasmPackCli::parse_from(&["wasm-pack", "build", "crates/wasm", "--target", "web", "--out-dir", "../../pkg", "--", "--no-default-features", "--features", "wasm,build", "-Z", "build-std=std,panic_abort"]);
 
     PBAR.set_log_level(wasm_pack_args.log_level);
