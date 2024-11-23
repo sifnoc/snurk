@@ -4,6 +4,7 @@ members = [
     "crates/engine",
     "crates/wasm",
 ]
+default-members = ["crates/cli"]
 
 resolver = "2"
 
