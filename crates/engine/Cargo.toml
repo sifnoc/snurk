@@ -1,0 +1,43 @@
+[package]
+name = "snurk-engine"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["native"]
+native = ["ark-circom/default"]
+wasm = [
+    "ark-circom/wasm",
+    "wasmer/js-default",
+    "wasmer-wasix/js-default",
+]
+
+[dependencies]
+ark-circom = { workspace = true }
+ark-ff = { workspace = true }
+ark-bn254 = { workspace = true }
+ark-groth16 = { workspace = true }
+ark-ed-on-bn254 = { workspace = true }
+ark-ec = { workspace = true }
+ark-std = { workspace = true }
+ark-serialize = { workspace = true }
+ark-relations = { workspace = true }
+ark-snark = { workspace = true }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+rsa = { workspace = true }
+rand = { workspace = true }
+hex = { workspace = true }
+jsonwebtoken = { workspace = true }
+byteorder = { workspace = true }
+num = { workspace = true }
+num-traits = { workspace = true }
+num-bigint = { workspace = true }
+base64 = { workspace = true }
+
+wasmer = { version = "4.3", default-features = false }
+wasmer-wasix = { version = "0.27.0", default-features = false }
+
+tokio = { workspace = true }

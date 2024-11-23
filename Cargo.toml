@@ -1,0 +1,42 @@
+[workspace]
+members = [
+    "crates/cli",
+    "crates/engine",
+    "crates/wasm",
+]
+
+resolver = "2"
+
+[workspace.dependencies]
+ark-circom = { git = "https://github.com/thefrozenfire/circom-compat.git", branch = "release-0.5", default-features = false }
+
+ark-crypto-primitives = { version = "0.5.0-alpha", features = ["parallel"] }
+ark-ff = { version = "0.5.0-alpha", features = ["parallel", "asm"] }
+ark-ec = { version = "0.5.0-alpha", features = ["parallel"] }
+ark-std = { version = "0.5.0-alpha", features = ["parallel"] }
+ark-bn254 = { version = "0.5.0-alpha" }
+ark-groth16 = { version = "0.5.0-alpha", features = ["parallel"] }
+ark-poly = { version = "0.5.0-alpha", features = ["parallel"] }
+ark-relations = { version = "0.5.0-alpha" }
+ark-serialize = { version = "0.5.0-alpha", features = ["parallel"] }
+ark-snark = { version = "0.5.0-alpha" }
+ark-ed-on-bn254 = { version = "0.5.0-alpha" }
+
+serde = { version = "1.0.209", features = ["derive"] }
+serde_json = { version = "1.0.127", features = [ "preserve_order" ] }
+num = "0.4.0"
+num-bigint = { version = "0.4.3", features = ["serde", "rand"] }
+num-integer = "0.1"
+num-traits = "0.2"
+
+chrono = "0.4.38"
+rsa = "0.9.6"
+sha2 = "0.10.8"
+rand = "0.8.5"
+byteorder = "1.4.3"
+hex = "0.4.3"
+jsonwebtoken = "9"
+base64 = "0.22"
+
+tokio = { version = "1.40", default-features = false, features = ["rt", "time", "macros"] }
+mio = { version = "=0.8.11" }

@@ -1,0 +1,18 @@
+[package]
+name = "snurk-wasm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+wasm-bindgen = { version = "0.2", optional = true }
+wasm-bindgen-rayon = { version = "1.2", optional = true }
+rayon = { version = "1.8", optional = true }
+web-sys = { version = "0.3", features = [
+    "Document",
+    "Window",
+    "Performance",
+    "console",
+], optional = true }
+
+[features]
+wasm = ["wasm-bindgen", "wasm-bindgen-rayon", "rayon", "web-sys"]
