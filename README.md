@@ -9,7 +9,7 @@ Rust code that optimizes and inlines the prover assets to the binary.
 
 ## Installation
 
-```
+```sh
 git clone https://github.com/thefrozenfire/snurk.git
 cd snurk
 
@@ -22,7 +22,7 @@ cargo build -p snurk --release
 
 ## Usage
 
-```
+```sh
 Usage: ./target/release/snurk --r1cs <R1CS> --zkey <ZKEY> --wasm <WASM>
 
 Options:
@@ -40,6 +40,29 @@ Options:
 
   -V, --version
           Print version
+```
+
+## Integration
+
+This WASM binaries produced by this tool leverage [wasm-bindgen-rayon](https://github.com/RReverser/wasm-bindgen-rayon) to parallelize the witness generation process.
+If you run into build issues, please refer first to the wasm-bindgen-rayon README, as most of the complexity arises from there.
+
+```js
+import init, { initThreadPool, prove } from './pkg/index.js';
+
+// Regular wasm-bindgen initialization.
+await init();
+
+// Thread pool initialization with the given number of threads
+// (pass `navigator.hardwareConcurrency` if you want to use all cores).
+await initThreadPool(navigator.hardwareConcurrency);
+
+let proof = await prove(JSON.stringify([
+    ["input_one", [1]],
+    ["input_many", [4, 5, 6]],
+]))
+
+console.log(JSON.parse(proof))
 ```
 
 ## Known Issues
