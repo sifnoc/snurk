@@ -19,13 +19,13 @@ pub fn convert_zkey(input_zkey: &Path) -> Result<((std::fs::File, PathBuf), (std
     let input_name = input_name
         .strip_suffix(".zkey")
         .unwrap_or("circuit");
-    let temp_zkey = std::env::temp_dir().join(format!("{}_temp.zkey", input_name));
+    let temp_zkey = std::env::temp_dir().join(format!("{}_temp.zkey", input_name)).canonicalize()?;
     let mut writer = std::fs::File::create(&temp_zkey).unwrap();
     params.serialize_uncompressed(&mut writer).unwrap();
 
     let pvk = GrothBn::process_vk(&params.vk).unwrap();
 
-    let temp_vkey = std::env::temp_dir().join(format!("{}_temp.vkey", input_name));
+    let temp_vkey = std::env::temp_dir().join(format!("{}_temp.vkey", input_name)).canonicalize()?;
     let mut vkey_writer = std::fs::File::create(&temp_vkey).unwrap();
     pvk.serialize_uncompressed(&mut vkey_writer).unwrap();
 

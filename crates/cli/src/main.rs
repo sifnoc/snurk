@@ -42,7 +42,7 @@ fn main() -> Result<()> {
     tracing::info!("Using zkey file: {}", cli.zkey);
     tracing::info!("Using witness generator: {}", cli.wasm);
 
-    let zkey_path = Path::new(&cli.zkey);
+    let zkey_path = Path::new(&cli.zkey).canonicalize().unwrap();
 
     let ((zkey_file, zkey_path), (vkey_file, _vkey_path)) = convert_zkey(&zkey_path).unwrap();
 
@@ -50,7 +50,9 @@ fn main() -> Result<()> {
     println!("vkey_file: {:?}", vkey_file);
     
     let manifest_dir = env!("CARGO_MANIFEST_DIR");
-    let wasm_src = Path::new(manifest_dir).join("../wasm/src/circuit.rs");
+    let wasm_src = Path::new(manifest_dir).join("../wasm/src/circuit.rs").canonicalize().unwrap();
+
+    let r1cs_path = Path::new(&cli.r1cs).canonicalize().unwrap();
 
     let mut output = std::fs::File::create(&wasm_src)?;
 
@@ -66,7 +68,7 @@ const WASM: &[u8] = include_bytes!("{}");
 pub fn prove(inputs: &str) -> String {{
     prove_inner(inputs, ZKEY, R1CS, WASM)
 }}
-"#, zkey_path.display(), cli.r1cs, cli.wasm);
+"#, zkey_path.display(), r1cs_path.display(), wasm_src.display());
 
     output.write_all(code.as_bytes())?;
 
