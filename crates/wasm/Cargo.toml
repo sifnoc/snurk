@@ -16,7 +16,7 @@ num-traits = { workspace = true }
 num-bigint = { workspace = true }
 
 wasm-bindgen = { version = "0.2", optional = true }
-wasm-bindgen-rayon = { version = "1.2", optional = true }
+wasm-bindgen-rayon = { version = "1.2", optional = true, features = ["no-bundler"]}
 rayon = { version = "1.8", optional = true }
 web-sys = { version = "0.3", features = [
     "Document",
